@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micrometer-deployment
+  labels:
+    app: micrometer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: micrometer
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
+      labels:
+        app: micrometer
+    spec:
+      containers:
+      - name: micrometer
+        image: selfieblue/micrometer:1.0.0
+        ports:
+        - containerPort: 8080
