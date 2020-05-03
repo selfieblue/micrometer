@@ -6,13 +6,13 @@ pipeline {
         maven 'Maven 3.6.3'
     }
 
+    parameters {
+        string(name: 'APP_NAME', defaultValue: 'demoapp', description: 'You Application Name')
+        string(name: 'REPO_NAME', defaultValue: '980259306743.dkr.ecr.ap-southeast-1.amazonaws.com',description: 'You Repo Name')
+    }
+
     stages {
-        stage("Echostage") {
-            steps {
-               echo "foo"
-            }
-        }
-        stage ('Build') {
+        stage ('Build Jar') {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true clean package' 
             }
@@ -20,6 +20,16 @@ pipeline {
                 success {
                     junit 'target/surefire-reports/**/*.xml' 
                 }
+            }
+        }
+        stage ('Build Docker Image') {
+            script {
+                buildImage(currentBuild,REPO_NAME,APP_NAME)
+            }
+        }
+        stage ('Helm Deploy') {
+            steps {
+                sh 'hostname' 
             }
         }
     }
