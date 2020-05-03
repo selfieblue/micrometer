@@ -23,8 +23,10 @@ pipeline {
             }
         }
         stage ('Build Docker Image') {
-            script {
-                buildImage(currentBuild,REPO_NAME,APP_NAME)
+            steps {
+                script {
+                    buildImage(currentBuild,REPO_NAME,APP_NAME)
+                }
             }
         }
         stage ('Helm Deploy') {
