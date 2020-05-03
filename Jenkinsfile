@@ -25,7 +25,7 @@ pipeline {
         stage ('Build Docker Image') {
             steps {
                 script {
-                    buildImage(currentBuild,REPO_NAME,APP_NAME)
+                    buildImage(currentBuild,${params.REPO_NAME},${params.APP_NAME})
                 }
             }
         }
