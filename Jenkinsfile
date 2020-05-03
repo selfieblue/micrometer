@@ -27,7 +27,7 @@ pipeline {
         stage ('Build Docker Image') {
             steps {
                 script {
-                    buildAndPushImage(currentBuild,params.REPO_NAME,params.APP_NAME,params.RELEASE_VERSION)
+                    buildAndPushImage(params.REPO_NAME,params.APP_NAME,params.RELEASE_VERSION)
                 }
             }
         }
