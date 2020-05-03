@@ -18,11 +18,11 @@ pipeline {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true clean package' 
             }
-            // post {
-            //     success {
-            //         junit 'target/surefire-reports/**/*.xml' 
-            //     }
-            // }
+            post {
+                success {
+                    junit 'target/surefire-reports/**/*.xml' 
+                }
+            }
         }
         stage ('Build Docker Image') {
             steps {
@@ -34,7 +34,7 @@ pipeline {
         // stage ('Helm Deploy') {
         //     steps {
         //         script {
-        //             helmDeploy(currentBuild,params.REPO_NAME,params.APP_NAME,params.RELEASE_VERSION,params.KUBE_NAMESPACE)
+        //             helmDeploy(params.REPO_NAME,params.APP_NAME,params.RELEASE_VERSION,params.KUBE_NAMESPACE)
         //         }
         //     }
         // }
